@@ -2,22 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum
-{
+typedef enum{
     A_REALISER,
     EN_COURS,
     FINALISEE
 } StatutTache;
 
-typedef struct
-{
+typedef struct{
     int jour;
     int mois;
     int annee;
 } Date;
 
-typedef struct
-{                         // struct NouvelleTache{
+typedef struct{                         // struct NouvelleTache{
     int id;               //		int id;
     char titre[20];       //		char titre[20];
     char description[50]; //		char description[50];
@@ -25,8 +22,7 @@ typedef struct
     StatutTache statut;   //		StatutTache statut;
 } NouvelleTache;          //}; typedef struct NouvelleTache NouvelleTache;
 
-NouvelleTache ajouterNouvelleTache()
-{
+NouvelleTache ajouterNouvelleTache(){
 
     NouvelleTache nouvelleTache;
     printf("Quel est l'identifiant de la tache ? \n");
