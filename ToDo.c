@@ -248,6 +248,145 @@ void modifierTache(NouvelleTache taches[], int nombre)
     }
 }
 
+void supprimerTache(NouvelleTache taches[], int *nombre)
+{
+    int id, i, trouve = 0;
+    printf("Entrez l'identifiant de la tache a supprimer: ");
+    scanf("%d", &id);
+
+    for (i = 0; i < *nombre; i++)
+    {
+        if (taches[i].id == id)
+        {
+            trouve = 1;
+            break;
+        }
+    }
+
+    if (!trouve)
+    {
+        printf("Tache non trouvee.\n");
+        return;
+    }
+
+    for (int j = i; j < *nombre - 1; j++)
+    {
+        taches[j] = taches[j + 1];
+    }
+    (*nombre)--;
+}
+
+void rechercherTacheParIdentifiant(NouvelleTache taches[], int nombre)
+{
+    int id, i, trouve = 0;
+    printf("Entrez l'identifiant de la tache a rechercher: ");
+    scanf("%d", &id);
+
+    for (i = 0; i < nombre; i++)
+    {
+        if (taches[i].id == id)
+        {
+            trouve = 1;
+            printf("Tache trouvee :\n");
+            printf("Identifiant : %d\n", taches[i].id);
+            printf("Titre : %s\n", taches[i].titre);
+            printf("Description : %s\n", taches[i].description);
+            printf("Deadline : %d/%d/%d\n", taches[i].deadline.jour, taches[i].deadline.mois, taches[i].deadline.annee);
+            switch (taches[i].statut)
+            {
+            case A_REALISER:
+                printf("Statut : A realiser\n");
+                break;
+            case EN_COURS:
+                printf("Statut : En cours de realisation\n");
+                break;
+            case FINALISEE:
+                printf("Statut : Finalisee\n");
+                break;
+            }
+            break;
+        }
+    }
+
+    if (!trouve)
+    {
+        printf("Tache non trouvee.\n");
+    }
+}
+
+void rechercherTacheParTitre(NouvelleTache taches[], int nombre)
+{
+    char titreRecherche[20];
+    printf("Entrez le titre de la tache a rechercher: ");
+    scanf(" %[^\n]s", titreRecherche);
+
+    int i, trouve = 0;
+    printf("Taches avec le titre \"%s\" :\n", titreRecherche);
+
+    for (i = 0; i < nombre; i++)
+    {
+        if (strcmp(taches[i].titre, titreRecherche) == 0)
+        {
+            trouve = 1;
+            printf("Identifiant : %d\n", taches[i].id);
+            printf("Titre : %s\n", taches[i].titre);
+            printf("Description : %s\n", taches[i].description);
+            printf("Deadline : %d/%d/%d\n", taches[i].deadline.jour, taches[i].deadline.mois, taches[i].deadline.annee);
+            switch (taches[i].statut)
+            {
+            case A_REALISER:
+                printf("Statut : A realiser\n");
+                break;
+            case EN_COURS:
+                printf("Statut : En cours de realisation\n");
+                break;
+            case FINALISEE:
+                printf("Statut : Finalisee\n");
+                break;
+            }
+            printf("\n");
+        }
+    }
+
+    if (!trouve)
+    {
+        printf("Aucune tache avec ce titre n'a ete trouvee.\n");
+    }
+}
+
+void rechercherDeChoix(NouvelleTache taches[], int nombre)
+{
+
+    int choix;
+
+    do
+    {
+        printf("************* MENU ****************\n");
+        printf("1 ----------> Trier les taches par ordre alphab�tique\n");
+        printf("2 ----------> Trier les taches par deadline\n");
+        printf("3 ----------> Quitter\n");
+        printf("*********************************\n");
+        printf("Entrez votre choix (1, 2, 3) : ");
+        scanf("%d", &choix);
+
+        switch (choix)
+        {
+        case 1:
+            rechercherTacheParIdentifiant(taches, nombre);
+            break;
+        case 2:
+            rechercherTacheParTitre(taches, nombre);
+            break;
+        case 3:
+            printf("Au revoir!\n");
+            exit(0);
+        default:
+            printf("Choix invalide\n");
+            break;
+        }
+    } while (choix != 3);
+}
+
 int main()
 {
     int choix;
@@ -280,7 +419,7 @@ int main()
             }
             else
             {
-                printf("D�sol�, le tableau est plein.\n");
+                printf("Le tableau est plein.\n");
             }
             break;
         case 2:
@@ -293,8 +432,10 @@ int main()
             modifierTache(taches, nombre);
             break;
         case 5:
+            supprimerTache(taches, &nombre);
             break;
         case 6:
+            rechercherDeChoix(taches, nombre);
             break;
         case 7:
             break;
