@@ -107,8 +107,7 @@ void trierTachesParDeadline(NouvelleTache taches[], int n)
     {
         for (j = 0; j < n - i - 1; j++)
         {
-            if ((taches[j].deadline.annee > taches[j + 1].deadline.annee || taches[j].deadline.annee == taches[j + 1].deadline.annee) && (taches[j].deadline.mois > taches[j + 1].deadline.mois || taches[j].deadline.mois == taches[j + 1].deadline.mois) && (taches[j].deadline.jour > taches[j + 1].deadline.jour))
-            {
+if ((taches[j].deadline.annee > taches[j + 1].deadline.annee )|| (taches[j].deadline.annee == taches[j + 1].deadline.annee && (taches[j].deadline.mois > taches[j + 1].deadline.mois || (taches[j].deadline.mois == taches[j + 1].deadline.mois && taches[j].deadline.jour > taches[j + 1].deadline.jour))))            {
                 NouvelleTache temp = taches[j];
                 taches[j] = taches[j + 1];
                 taches[j + 1] = temp;
@@ -150,7 +149,7 @@ void afficherDeChoix(NouvelleTache taches[], int nombre)
     do
     {
         printf("************* MENU ****************\n");
-        printf("1 ----------> Trier les taches par ordre alphab�tique\n");
+        printf("1 ----------> Trier les taches par ordre alphabique\n");
         printf("2 ----------> Trier les taches par deadline\n");
         printf("3 ----------> Afficher les taches avec deadline dans 3 jours ou moins\n");
         printf("4 ----------> Quitter\n");
@@ -173,12 +172,12 @@ void afficherDeChoix(NouvelleTache taches[], int nombre)
             break;
         case 4:
             printf("Au revoir!\n");
-            exit(0);
         default:
             printf("Choix invalide\n");
             break;
         }
     } while (choix != 4);
+
 }
 
 void modifierTache(NouvelleTache taches[], int nombre)
@@ -344,7 +343,7 @@ void rechercherTacheParTitre(NouvelleTache taches[], int nombre)
                 printf("Statut : Finalisee\n");
                 break;
             }
-            printf("\n");
+            break;
         }
     }
 
@@ -362,8 +361,8 @@ void rechercherDeChoix(NouvelleTache taches[], int nombre)
     do
     {
         printf("************* MENU ****************\n");
-        printf("1 ----------> Trier les taches par ordre alphab�tique\n");
-        printf("2 ----------> Trier les taches par deadline\n");
+        printf("1 ----------> Rechercher une tache par son Identifiant.\n");
+        printf("2 ----------> Rechercher une tache par son Titre\n");
         printf("3 ----------> Quitter\n");
         printf("*********************************\n");
         printf("Entrez votre choix (1, 2, 3) : ");
@@ -379,12 +378,68 @@ void rechercherDeChoix(NouvelleTache taches[], int nombre)
             break;
         case 3:
             printf("Au revoir!\n");
-            exit(0);
         default:
             printf("Choix invalide\n");
             break;
         }
     } while (choix != 3);
+}
+
+void afficherStatistiquesTotal(NouvelleTache taches[], int nombre) {
+    printf("Nombre total de taches : %d\n", nombre);
+}
+
+void afficherStatistiquesComp(NouvelleTache taches[], int nombre) {
+    int completes = 0;
+    int incompletes = 0;
+
+    for (int i = 0; i < nombre; i++) {
+        if (taches[i].statut == FINALISEE) {
+            completes++;
+        } else {
+            incompletes++;
+        }
+    }
+
+    printf("Nombre de taches completes : %d\n", completes);
+    printf("Nombre de taches incompletes : %d\n", incompletes);
+}
+
+void afficherStatistiques(NouvelleTache taches[], int nombre)
+{
+
+    int choix;
+
+    do
+    {
+        printf("************* MENU ****************\n");
+        printf("1 ----------> Afficher le nombre total des taches.\n");
+        printf("2 ----------> Afficher le nombre de taches completes et incompletes.\n");
+        printf("3 ----------> Afficher le nombre de jours restants jusqu'au delai de chaque tache.\n");
+        printf("4 ----------> Quitter\n");
+        printf("*********************************\n");
+        printf("Entrez votre choix (1, 2, 3, 4) : ");
+        scanf("%d", &choix);
+
+        switch (choix)
+        {
+        case 1:
+            afficherStatistiquesTotal(taches, nombre);
+            break;
+        case 2:
+            afficherStatistiquesComp(taches, nombre);
+            break;
+        case 3:
+            //
+            break;
+        case 4:
+            printf("Au revoir!\n");
+        default:
+            printf("Choix invalide\n");
+            break;
+        }
+    } while (choix != 4);
+
 }
 
 int main()
@@ -438,6 +493,7 @@ int main()
             rechercherDeChoix(taches, nombre);
             break;
         case 7:
+            afficherStatistiques(taches, nombre);
             break;
         case 8:
             printf("Au revoir!\n");
